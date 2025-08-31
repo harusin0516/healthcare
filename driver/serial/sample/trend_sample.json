@@ -1,0 +1,204 @@
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "unix_timestamp": 1705312200,
+  "record_type": "Trend Data",
+  "record_number": 1,
+  "dri_level": 6,
+  "dri_level_description": "2019 '19",
+  "plug_id": 12345,
+  "main_type": 1,
+  "main_type_name": "Physiological Data",
+  "subrecords": [
+    {
+      "index": 0,
+      "offset": 0,
+      "type": 3,
+      "type_name": "60 Second Trended Values",
+      "is_valid": true,
+      "is_end_of_list": false,
+      "data": {
+        "timestamp": "2024-01-15T10:30:00Z",
+        "unix_timestamp": 1705312200,
+        "marker": 0,
+        "reserved": 0,
+        "cl_drilvl_subt": 256,
+        "data_class": 0,
+        "data_class_name": "Basic",
+        "is_valid": true,
+        "physiological_data": {
+          "type": "basic",
+          "data": [
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+          ]
+        }
+      }
+    },
+    {
+      "index": 1,
+      "offset": 278,
+      "type": 4,
+      "type_name": "Auxiliary Information",
+      "is_valid": true,
+      "is_end_of_list": false,
+      "data": {
+        "nibp_time": {
+          "unix_timestamp": 1705312140,
+          "timestamp": "2024-01-15T10:29:00Z",
+          "is_known": true
+        },
+        "reserved1": 0,
+        "co_time": {
+          "unix_timestamp": 1705312080,
+          "timestamp": "2024-01-15T10:28:00Z",
+          "is_known": true
+        },
+        "pcwp_time": {
+          "unix_timestamp": 1705312020,
+          "timestamp": "2024-01-15T10:27:00Z",
+          "is_known": true
+        },
+        "body_surface_area": {
+          "raw_value": 185,
+          "m2": 1.85,
+          "unit": "m²"
+        },
+        "reserved": [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "is_valid": true
+      }
+    },
+    {
+      "index": 2,
+      "offset": 0,
+      "type": 255,
+      "type_name": "End of List",
+      "is_valid": false,
+      "is_end_of_list": true
+    },
+    {
+      "index": 3,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 4,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 5,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 6,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 7,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    }
+  ],
+  "groups": {
+    "physiological_data": {
+      "record_count": 2,
+      "records": [
+        {
+          "timestamp": "2024-01-15T10:30:00Z",
+          "unix_timestamp": 1705312200,
+          "marker": 0,
+          "reserved": 0,
+          "cl_drilvl_subt": 256,
+          "data_class": 0,
+          "data_class_name": "Basic",
+          "is_valid": true,
+          "physiological_data": {
+            "type": "basic",
+            "data": [
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            ]
+          }
+        },
+        {
+          "timestamp": "2024-01-15T10:30:00Z",
+          "unix_timestamp": 1705312200,
+          "marker": 0,
+          "reserved": 0,
+          "cl_drilvl_subt": 256,
+          "data_class": 0,
+          "data_class_name": "Basic",
+          "is_valid": true,
+          "physiological_data": {
+            "type": "basic",
+            "data": [
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            ]
+          }
+        }
+      ]
+    },
+    "ph_record_0": {
+      "timestamp": "2024-01-15T10:30:00Z",
+      "unix_timestamp": 1705312200,
+      "marker": 0,
+      "reserved": 0,
+      "cl_drilvl_subt": 256,
+      "data_class": 0,
+      "data_class_name": "Basic",
+      "is_valid": true,
+      "physiological_data": {
+        "type": "basic",
+        "data": [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ]
+      }
+    },
+    "ph_record_1": {
+      "timestamp": "2024-01-15T10:30:00Z",
+      "unix_timestamp": 1705312200,
+      "marker": 0,
+      "reserved": 0,
+      "cl_drilvl_subt": 256,
+      "data_class": 0,
+      "data_class_name": "Basic",
+      "is_valid": true,
+      "physiological_data": {
+        "type": "basic",
+        "data": [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ]
+      }
+    }
+  },
+  "is_valid": true,
+  "parse_errors": []
+}
