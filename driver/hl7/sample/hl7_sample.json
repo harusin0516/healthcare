@@ -1,0 +1,115 @@
+{
+  "timestamp": "2024-12-19T10:30:00Z",
+  "message_type": "ORU",
+  "message_id": "080019FFFE13453520241219103000",
+  "version": "2.6",
+  "raw_message": "MSH|^~\\&|VSP^080019FFFE134535^EUI-64|GE Healthcare|||20241219103000-0700||ORU^R01^ORU_R01|080019FFFE13453520241219103000|P|2.6|||NE|AL||UNICODE UTF-8|||PCD_DEC_001^IHE PCD^1.3.6.1.4.1.19376.1.6.1.1.1^ISO\rPID|||HED12^^^PID^MR||LAZY^KITTY^^^^^L|||\rPV1||E|ICU^^79874\rOBR|1|080019FFFE13453520241219103000^VSP^080019FFFE134535^EUI-64|080019FFFE13453520241219103000^VSP^080019FFFE134535^EUI-64|182777000^monitoring ofpatient^SCT|||20241219103000\rOBX|1||69965^MDC_DEV_MON_PHYSIO_MULTI_PARAM_MDS^MDC|1.0.0.0|||||||X\rOBX|2||69854^MDC_DEV_METER_PRESS_BLD_VMD^MDC|1.13.0.0|||||||X\rOBX|3||69855^MDC_DEV_METER_PRESS_BLD_CHAN^MDC|1.13.1.0|||||||X\rOBX|4|NM|150033^MDC_PRESS_BLD_ART_SYS^MDC|1.13.1.1|120|266016^MDC_DIM_MMHG^MDC|||||R|||||||080019FFFE134535^B1X5_GE\rOBX|5|NM|150034^MDC_PRESS_BLD_ART_DIA^MDC|1.13.1.2|80|266016^MDC_DIM_MMHG^MDC|||||R|||||||080019FFFE134535^B1X5_GE\rOBX|6|NM|150035^MDC_PRESS_BLD_ART_MEAN^MDC|1.13.1.3|93|266016^MDC_DIM_MMHG^MDC|||||R|||||||080019FFFE134535^B1X5_GE",
+  "segments": [
+    {
+      "segment_type": "MSH",
+      "raw_segment": "MSH|^~\\&|VSP^080019FFFE134535^EUI-64|GE Healthcare|||20241219103000-0700||ORU^R01^ORU_R01|080019FFFE13453520241219103000|P|2.6|||NE|AL||UNICODE UTF-8|||PCD_DEC_001^IHE PCD^1.3.6.1.4.1.19376.1.6.1.1.1^ISO",
+      "fields": [
+        {"value": "^~\\&"},
+        {"value": "VSP^080019FFFE134535^EUI-64"},
+        {"value": "GE Healthcare"},
+        {"value": ""},
+        {"value": ""},
+        {"value": "20241219103000-0700"},
+        {"value": ""},
+        {"value": "ORU^R01^ORU_R01"},
+        {"value": "080019FFFE13453520241219103000"},
+        {"value": "P"},
+        {"value": "2.6"},
+        {"value": ""},
+        {"value": "NE"},
+        {"value": "AL"},
+        {"value": ""},
+        {"value": "UNICODE UTF-8"},
+        {"value": ""},
+        {"value": "PCD_DEC_001^IHE PCD^1.3.6.1.4.1.19376.1.6.1.1.1^ISO"}
+      ]
+    },
+    {
+      "segment_type": "PID",
+      "raw_segment": "PID|||HED12^^^PID^MR||LAZY^KITTY^^^^^L|||",
+      "fields": [
+        {"value": ""},
+        {"value": ""},
+        {"value": "HED12^^^PID^MR"},
+        {"value": ""},
+        {"value": "LAZY^KITTY^^^^^L"},
+        {"value": ""},
+        {"value": ""},
+        {"value": ""}
+      ]
+    },
+    {
+      "segment_type": "PV1",
+      "raw_segment": "PV1||E|ICU^^79874",
+      "fields": [
+        {"value": ""},
+        {"value": "E"},
+        {"value": "ICU^^79874"}
+      ]
+    }
+  ],
+  "patient_info": {
+    "patient_id": "HED12",
+    "patient_name": "LAZY^KITTY^^^^^L",
+    "visit_type": "E",
+    "location": "ICU^^79874"
+  },
+  "device_info": {
+    "device_id": "080019FFFE134535",
+    "device_type": "VSP",
+    "manufacturer": "GE Healthcare",
+    "protocol": "PCD_DEC_001^IHE PCD^1.3.6.1.4.1.19376.1.6.1.1.1^ISO"
+  },
+  "vital_signs": [
+    {
+      "observation_id": "150033^MDC_PRESS_BLD_ART_SYS^MDC",
+      "value": "120",
+      "unit": "266016^MDC_DIM_MMHG^MDC",
+      "description": "Arterial Blood Pressure Systolic",
+      "device": "080019FFFE134535^B1X5_GE"
+    },
+    {
+      "observation_id": "150034^MDC_PRESS_BLD_ART_DIA^MDC",
+      "value": "80",
+      "unit": "266016^MDC_DIM_MMHG^MDC",
+      "description": "Arterial Blood Pressure Diastolic",
+      "device": "080019FFFE134535^B1X5_GE"
+    },
+    {
+      "observation_id": "150035^MDC_PRESS_BLD_ART_MEAN^MDC",
+      "value": "93",
+      "unit": "266016^MDC_DIM_MMHG^MDC",
+      "description": "Arterial Blood Pressure Mean",
+      "device": "080019FFFE134535^B1X5_GE"
+    }
+  ],
+  "monitoring_data": {
+    "heart_rate": {
+      "value": "75",
+      "unit": "264864^MDC_DIM_BEAT_PER_MIN^MDC",
+      "description": "ECG Heart Rate"
+    },
+    "temperature": {
+      "value": "36.8",
+      "unit": "268192^MDC_DIM_DEGC^MDC",
+      "description": "Body Temperature"
+    },
+    "spo2": {
+      "value": "98",
+      "unit": "262688^MDC_DIM_PERCENT^MDC",
+      "description": "Oxygen Saturation"
+    }
+  },
+  "message_format": {
+    "hl7_version": "2.6",
+    "encoding": "UNICODE UTF-8",
+    "message_type": "ORU^R01^ORU_R01",
+    "priority": "R",
+    "security": "NE|AL"
+  }
+}

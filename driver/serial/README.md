@@ -91,6 +91,14 @@ if err != nil {
 - **データ妥当性検証**: `ValidateTrendData()`関数
 - **サマリー取得**: `GetTrendSummary()`関数
 
+### 4. アラームデータ解析 (`driver/serial/parse_alarm.go`)
+
+#### 主要機能
+- **アラームステータス解析**: アラームの状態とメッセージの解析
+- **アラーム優先度管理**: 赤、黄、白の優先度レベル対応
+- **サイレンス情報解析**: アラームのサイレンス状態の解析
+- **複数アラーム処理**: 最大5つのアラームメッセージ対応
+
 #### JSON出力構造
 ```go
 type TrendJSON struct {
@@ -125,7 +133,13 @@ type TrendJSON struct {
 - **60秒トレンド**: 60秒間隔のトレンド値（重点対応）
 - **補助情報**: NIBP、CO、PCWP測定時間、体表面積
 
-### 3. 生理学的データグループ
+### 3. アラームデータ
+- **アラームステータス**: アラームの状態とメッセージ
+- **アラーム優先度**: 赤（高）、黄（中）、白（低）の優先度
+- **サイレンス情報**: アラームのサイレンス状態（無音、無呼吸、心停止など）
+- **アラームメッセージ**: 最大5つのアラームテキスト（例: "HR LOW"）
+
+### 4. 生理学的データグループ
 - **Basic**: 基本生理学的データ（ECG、血圧、体温、SpO2など）
 - **Extended 1**: 不整脈解析、ST解析、12誘導ECGなど
 - **Extended 2**: NMT、EEG、エントロピーなど
@@ -194,6 +208,45 @@ func main() {
 }
 ```
 
+### 3. アラームデータの解析
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "driver/serial"
+)
+
+func main() {
+    // 単一のアラームデータを解析
+    jsonString, err := serial.ParseAndConvertToJSON(alarmData)
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    // 複数のアラームデータを解析
+    jsonString, err = serial.ParseMultipleAlarmsToJSON(alarmData)
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    // データの妥当性検証
+    err = serial.ValidateAlarmData(alarmData)
+    if err != nil {
+        log.Printf("Validation error: %v", err)
+    }
+    
+    // アラームサマリー取得
+    alarm, err := serial.ParseAndConvertToStruct(alarmData)
+    if err != nil {
+        log.Fatal(err)
+    }
+    summary := serial.GetAlarmSummary(alarm)
+    fmt.Printf("Summary: %+v\n", summary)
+}
+```
+
 ## JSON出力例
 
 ### 波形データ出力
@@ -246,6 +299,52 @@ func main() {
 }
 ```
 
+### アラームデータ出力
+```json
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "unix_timestamp": 1705312200,
+  "record_type": "Alarm Data",
+  "dri_level": 6,
+  "dri_level_description": "2019 '19",
+  "main_type": 4,
+  "main_type_name": "Alarm Data",
+  "alarm_data": {
+    "type": "alarm_status_message",
+    "data": {
+      "sound_on_off": {
+        "value": true,
+        "status": true
+      },
+      "silence_info": {
+        "value": 0,
+        "description": "Alarms are not silenced at bedside",
+        "is_silenced": false
+      },
+      "alarms": [
+        {
+          "text": {
+            "value": "HR LOW",
+            "changed": true
+          },
+          "color": {
+            "value": 2,
+            "name": "Yellow",
+            "changed": false
+          },
+          "priority": {
+            "level": 2,
+            "is_active": true
+          }
+        }
+      ],
+      "active_alarm_count": 1
+    }
+  },
+  "is_valid": true
+}
+```
+
 ## エラーハンドリング
 
 ドライバーは包括的なエラーハンドリングを提供します：
@@ -285,8 +384,10 @@ driver/
 │   ├── type.go           # データ型定義
 │   ├── parse_wave.go     # 波形データ解析
 │   ├── parse_trend.go    # トレンドデータ解析
+│   ├── parse_alarm.go    # アラームデータ解析
 │   └── sample/
-│       └── trend_sample.json  # JSON出力サンプル
+│       ├── trend_sample.json  # トレンドデータJSON出力サンプル
+│       └── alarm_sample.json  # アラームデータJSON出力サンプル
 └── README.md
 ```
 

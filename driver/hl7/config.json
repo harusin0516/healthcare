@@ -1,0 +1,29 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "timeout": 30,
+    "max_connections": 100
+  },
+  "hl7": {
+    "version": "2.5",
+    "encoding": "UTF-8",
+    "field_separator": "|",
+    "component_separator": "^",
+    "subcomponent_separator": "&",
+    "repetition_separator": "~",
+    "escape_character": "\\"
+  },
+  "logging": {
+    "level": "info",
+    "file": "hl7_server.log",
+    "max_size": 100,
+    "max_backups": 3
+  },
+  "security": {
+    "enable_tls": false,
+    "cert_file": "",
+    "key_file": "",
+    "allowed_ips": []
+  }
+}

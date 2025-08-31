@@ -1,0 +1,310 @@
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "unix_timestamp": 1705312200,
+  "record_type": "Alarm Data",
+  "record_number": 1,
+  "dri_level": 6,
+  "dri_level_description": "2019 '19",
+  "plug_id": 12345,
+  "main_type": 4,
+  "main_type_name": "Alarm Data",
+  "subrecords": [
+    {
+      "index": 0,
+      "offset": 0,
+      "type": 1,
+      "type_name": "Alarm Status",
+      "is_valid": true,
+      "is_end_of_list": false,
+      "data": {
+        "reserved": 0,
+        "sound_on_off": {
+          "value": true,
+          "status": true
+        },
+        "reserved2": 0,
+        "reserved3": 0,
+        "silence_info": {
+          "value": 0,
+          "description": "Alarms are not silenced at bedside",
+          "is_silenced": false
+        },
+        "alarms": [
+          {
+            "text": {
+              "value": "HR LOW",
+              "changed": true
+            },
+            "color": {
+              "value": 2,
+              "name": "Yellow",
+              "changed": false
+            },
+            "priority": {
+              "level": 2,
+              "is_active": true
+            },
+            "reserved": [0, 0, 0, 0, 0, 0]
+          },
+          {
+            "text": {
+              "value": "",
+              "changed": false
+            },
+            "color": {
+              "value": 0,
+              "name": "No alarm",
+              "changed": false
+            },
+            "priority": {
+              "level": 0,
+              "is_active": false
+            },
+            "reserved": [0, 0, 0, 0, 0, 0]
+          },
+          {
+            "text": {
+              "value": "",
+              "changed": false
+            },
+            "color": {
+              "value": 0,
+              "name": "No alarm",
+              "changed": false
+            },
+            "priority": {
+              "level": 0,
+              "is_active": false
+            },
+            "reserved": [0, 0, 0, 0, 0, 0]
+          },
+          {
+            "text": {
+              "value": "",
+              "changed": false
+            },
+            "color": {
+              "value": 0,
+              "name": "No alarm",
+              "changed": false
+            },
+            "priority": {
+              "level": 0,
+              "is_active": false
+            },
+            "reserved": [0, 0, 0, 0, 0, 0]
+          },
+          {
+            "text": {
+              "value": "",
+              "changed": false
+            },
+            "color": {
+              "value": 0,
+              "name": "No alarm",
+              "changed": false
+            },
+            "priority": {
+              "level": 0,
+              "is_active": false
+            },
+            "reserved": [0, 0, 0, 0, 0, 0]
+          }
+        ],
+        "active_alarm_count": 1,
+        "highest_priority_alarm": {
+          "text": {
+            "value": "HR LOW",
+            "changed": true
+          },
+          "color": {
+            "value": 2,
+            "name": "Yellow",
+            "changed": false
+          },
+          "priority": {
+            "level": 2,
+            "is_active": true
+          },
+          "reserved": [0, 0, 0, 0, 0, 0]
+        },
+        "reserved4": [0, 0, 0, 0, 0]
+      }
+    },
+    {
+      "index": 1,
+      "offset": 0,
+      "type": 255,
+      "type_name": "End of List",
+      "is_valid": false,
+      "is_end_of_list": true
+    },
+    {
+      "index": 2,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 3,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 4,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 5,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 6,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    },
+    {
+      "index": 7,
+      "offset": 0,
+      "type": 0,
+      "type_name": "Unknown Type 0",
+      "is_valid": false,
+      "is_end_of_list": false
+    }
+  ],
+  "alarm_data": {
+    "type": "alarm_status_message",
+    "data": {
+      "reserved": 0,
+      "sound_on_off": {
+        "value": true,
+        "status": true
+      },
+      "reserved2": 0,
+      "reserved3": 0,
+      "silence_info": {
+        "value": 0,
+        "description": "Alarms are not silenced at bedside",
+        "is_silenced": false
+      },
+      "alarms": [
+        {
+          "text": {
+            "value": "HR LOW",
+            "changed": true
+          },
+          "color": {
+            "value": 2,
+            "name": "Yellow",
+            "changed": false
+          },
+          "priority": {
+            "level": 2,
+            "is_active": true
+          },
+          "reserved": [0, 0, 0, 0, 0, 0]
+        },
+        {
+          "text": {
+            "value": "",
+            "changed": false
+          },
+          "color": {
+            "value": 0,
+            "name": "No alarm",
+            "changed": false
+          },
+          "priority": {
+            "level": 0,
+            "is_active": false
+          },
+          "reserved": [0, 0, 0, 0, 0, 0]
+        },
+        {
+          "text": {
+            "value": "",
+            "changed": false
+          },
+          "color": {
+            "value": 0,
+            "name": "No alarm",
+            "changed": false
+          },
+          "priority": {
+            "level": 0,
+            "is_active": false
+          },
+          "reserved": [0, 0, 0, 0, 0, 0]
+        },
+        {
+          "text": {
+            "value": "",
+            "changed": false
+          },
+          "color": {
+            "value": 0,
+            "name": "No alarm",
+            "changed": false
+          },
+          "priority": {
+            "level": 0,
+            "is_active": false
+          },
+          "reserved": [0, 0, 0, 0, 0, 0]
+        },
+        {
+          "text": {
+            "value": "",
+            "changed": false
+          },
+          "color": {
+            "value": 0,
+            "name": "No alarm",
+            "changed": false
+          },
+          "priority": {
+            "level": 0,
+            "is_active": false
+          },
+          "reserved": [0, 0, 0, 0, 0, 0]
+        }
+      ],
+      "active_alarm_count": 1,
+      "highest_priority_alarm": {
+        "text": {
+          "value": "HR LOW",
+          "changed": true
+        },
+        "color": {
+          "value": 2,
+          "name": "Yellow",
+          "changed": false
+        },
+        "priority": {
+          "level": 2,
+          "is_active": true
+        },
+        "reserved": [0, 0, 0, 0, 0, 0]
+      },
+      "reserved4": [0, 0, 0, 0, 0]
+    }
+  },
+  "is_valid": true,
+  "parse_errors": []
+}

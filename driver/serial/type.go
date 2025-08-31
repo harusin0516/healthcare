@@ -2355,3 +2355,348 @@ func (s *SvO2Group) ToJSON() map[string]interface{} {
 		},
 	}
 }
+
+// DRI Alarm Subrecord Types
+// Table 4-1 Alarm subrecord values and usage
+const (
+	DRI_AL_STATUS = 1 // Alarm status subrecord
+)
+
+// Alarm Silence Information Values
+// Table 4-2 Alarm silence information values
+const (
+	DRI_SI_NONE     = 0 // Alarms are not silenced at bedside
+	DRI_SI_APNEA    = 1 // Apnea alarms have been silenced at bedside
+	DRI_SI_ASY      = 2 // Asystole alarms have been silenced at bedside
+	DRI_SI_APNEA_ASY = 3 // Both apnea and asystole alarms have been silenced at bedside
+	DRI_SI_ALL      = 4 // All alarms have been silenced at bedside
+	DRI_SI_2MIN     = 5 // All alarms have been silenced at bedside for two minutes
+	DRI_SI_5MIN     = 6 // All alarms have been silenced at bedside for five minutes
+	DRI_SI_20S      = 7 // All alarms have been silenced at bedside for 20 seconds
+)
+
+// Alarm Color/Priority Constants
+// enum dri_alarm_color
+const (
+	DRI_PR0 = 0 // No alarm
+	DRI_PR1 = 1 // White
+	DRI_PR2 = 2 // Yellow
+	DRI_PR3 = 3 // Red
+)
+
+// Alarm Display Structure
+// struct al_disp_al
+type AlarmDisplay struct {
+	Text         [80]byte // The actual alarm text displayed by the S/5 monitor
+	TextChanged  bool     // Is true if the alarm text has changed after the previous alarm data transmission
+	Color        byte     // The priority of the alarm (enum_dri_alarm_color)
+	ColorChanged bool     // Is true if the alarm color has changed after the previous alarm data transmission
+	Reserved     [6]int16 // Reserved for future extensions
+}
+
+// Size returns the size of AlarmDisplay in bytes
+func (a *AlarmDisplay) Size() int {
+	return 80 + 1 + 1 + 1 + 6*2 // text[80] + text_changed + color + color_changed + reserved[6]
+}
+
+// UnmarshalBinary converts binary data to alarm display
+func (a *AlarmDisplay) UnmarshalBinary(data []byte) error {
+	if len(data) < a.Size() {
+		return ErrInvalidDataLength
+	}
+
+	offset := 0
+
+	// text[]: The actual alarm text displayed by the S/5 monitor
+	copy(a.Text[:], data[offset:offset+80])
+	offset += 80
+
+	// text_changed: Is true if the alarm text has changed
+	a.TextChanged = data[offset] != 0
+	offset += 1
+
+	// color: The priority of the alarm
+	a.Color = data[offset]
+	offset += 1
+
+	// color_changed: Is true if the alarm color has changed
+	a.ColorChanged = data[offset] != 0
+	offset += 1
+
+	// reserved: Reserved for future extensions
+	for i := 0; i < 6; i++ {
+		a.Reserved[i] = int16(binary.LittleEndian.Uint16(data[offset:]))
+		offset += 2
+	}
+
+	return nil
+}
+
+// GetAlarmText returns the alarm text as a string
+func (a *AlarmDisplay) GetAlarmText() string {
+	// Find the null terminator
+	end := 0
+	for i := 0; i < 80; i++ {
+		if a.Text[i] == 0 {
+			end = i
+			break
+		}
+		end = i + 1
+	}
+	return string(a.Text[:end])
+}
+
+// SetAlarmText sets the alarm text
+func (a *AlarmDisplay) SetAlarmText(text string) {
+	// Clear the text array
+	for i := 0; i < 80; i++ {
+		a.Text[i] = 0
+	}
+	
+	// Copy the text (truncate if longer than 80 characters)
+	textBytes := []byte(text)
+	copyLength := len(textBytes)
+	if copyLength > 80 {
+		copyLength = 80
+	}
+	copy(a.Text[:], textBytes[:copyLength])
+}
+
+// GetAlarmColor returns the alarm color as a string
+func (a *AlarmDisplay) GetAlarmColor() string {
+	switch a.Color {
+	case DRI_PR0:
+		return "No alarm"
+	case DRI_PR1:
+		return "White"
+	case DRI_PR2:
+		return "Yellow"
+	case DRI_PR3:
+		return "Red"
+	default:
+		return fmt.Sprintf("Unknown color %d", a.Color)
+	}
+}
+
+// GetAlarmPriority returns the alarm priority level
+func (a *AlarmDisplay) GetAlarmPriority() int {
+	return int(a.Color)
+}
+
+// IsActiveAlarm returns true if this is an active alarm (priority 1 or higher)
+func (a *AlarmDisplay) IsActiveAlarm() bool {
+	return a.Color >= DRI_PR1
+}
+
+// ToJSON converts the AlarmDisplay to JSON format
+func (a *AlarmDisplay) ToJSON() map[string]interface{} {
+	return map[string]interface{}{
+		"text": map[string]interface{}{
+			"value":   a.GetAlarmText(),
+			"changed": a.TextChanged,
+		},
+		"color": map[string]interface{}{
+			"value":   a.Color,
+			"name":    a.GetAlarmColor(),
+			"changed": a.ColorChanged,
+		},
+		"priority": map[string]interface{}{
+			"level": a.GetAlarmPriority(),
+			"is_active": a.IsActiveAlarm(),
+		},
+		"reserved": a.Reserved,
+	}
+}
+
+// Alarm Status Message Structure
+// struct dri_al_msg
+type AlarmStatusMessage struct {
+	Reserved    int16           // Reserved for future extensions
+	SoundOnOff  bool            // Indicates the on/off status of the alarm sound (0=off, 1=on)
+	Reserved2   int16           // Reserved for future extensions
+	Reserved3   int16           // Reserved for future extensions
+	SilenceInfo byte            // Indicates the alarm silence status at the monitor
+	AlDisp      [5]AlarmDisplay // Array of alarm messages (sorted in descending order by alarm color)
+	Reserved4   [5]int16        // Reserved for future extensions
+}
+
+// Size returns the size of AlarmStatusMessage in bytes
+func (a *AlarmStatusMessage) Size() int {
+	return 2 + 1 + 2 + 2 + 1 + 5*93 + 5*2 // reserved + sound_on_off + reserved2 + reserved3 + silence_info + 5*al_disp + reserved4
+}
+
+// UnmarshalBinary converts binary data to alarm status message
+func (a *AlarmStatusMessage) UnmarshalBinary(data []byte) error {
+	if len(data) < a.Size() {
+		return ErrInvalidDataLength
+	}
+
+	offset := 0
+
+	// reserved: Reserved for future extensions
+	a.Reserved = int16(binary.LittleEndian.Uint16(data[offset:]))
+	offset += 2
+
+	// sound_on_off: Indicates the on/off status of the alarm sound
+	a.SoundOnOff = data[offset] != 0
+	offset += 1
+
+	// reserved2: Reserved for future extensions
+	a.Reserved2 = int16(binary.LittleEndian.Uint16(data[offset:]))
+	offset += 2
+
+	// reserved3: Reserved for future extensions
+	a.Reserved3 = int16(binary.LittleEndian.Uint16(data[offset:]))
+	offset += 2
+
+	// silence_info: Indicates the alarm silence status at the monitor
+	a.SilenceInfo = data[offset]
+	offset += 1
+
+	// al_disp: Array of alarm messages
+	for i := 0; i < 5; i++ {
+		if err := a.AlDisp[i].UnmarshalBinary(data[offset:]); err != nil {
+			return err
+		}
+		offset += a.AlDisp[i].Size()
+	}
+
+	// reserved4: Reserved for future extensions
+	for i := 0; i < 5; i++ {
+		a.Reserved4[i] = int16(binary.LittleEndian.Uint16(data[offset:]))
+		offset += 2
+	}
+
+	return nil
+}
+
+// GetSilenceInfoDescription returns the human-readable silence info description
+func (a *AlarmStatusMessage) GetSilenceInfoDescription() string {
+	switch a.SilenceInfo {
+	case DRI_SI_NONE:
+		return "Alarms are not silenced at bedside"
+	case DRI_SI_APNEA:
+		return "Apnea alarms have been silenced at bedside"
+	case DRI_SI_ASY:
+		return "Asystole alarms have been silenced at bedside"
+	case DRI_SI_APNEA_ASY:
+		return "Both apnea and asystole alarms have been silenced at bedside"
+	case DRI_SI_ALL:
+		return "All alarms have been silenced at bedside"
+	case DRI_SI_2MIN:
+		return "All alarms have been silenced at bedside for two minutes"
+	case DRI_SI_5MIN:
+		return "All alarms have been silenced at bedside for five minutes"
+	case DRI_SI_20S:
+		return "All alarms have been silenced at bedside for 20 seconds"
+	default:
+		return fmt.Sprintf("Unknown silence info %d", a.SilenceInfo)
+	}
+}
+
+// GetActiveAlarmCount returns the number of active alarms
+func (a *AlarmStatusMessage) GetActiveAlarmCount() int {
+	count := 0
+	for i := 0; i < 5; i++ {
+		if a.AlDisp[i].IsActiveAlarm() {
+			count++
+		}
+	}
+	return count
+}
+
+// GetHighestPriorityAlarm returns the highest priority alarm (lowest number = highest priority)
+func (a *AlarmStatusMessage) GetHighestPriorityAlarm() *AlarmDisplay {
+	highestPriority := 255
+	var highestAlarm *AlarmDisplay
+
+	for i := 0; i < 5; i++ {
+		if a.AlDisp[i].IsActiveAlarm() && int(a.AlDisp[i].Color) < highestPriority {
+			highestPriority = int(a.AlDisp[i].Color)
+			highestAlarm = &a.AlDisp[i]
+		}
+	}
+
+	return highestAlarm
+}
+
+// IsSoundOn returns true if the alarm sound is on
+func (a *AlarmStatusMessage) IsSoundOn() bool {
+	return a.SoundOnOff
+}
+
+// IsSilenced returns true if any alarms are silenced
+func (a *AlarmStatusMessage) IsSilenced() bool {
+	return a.SilenceInfo != DRI_SI_NONE
+}
+
+// ToJSON converts the AlarmStatusMessage to JSON format
+func (a *AlarmStatusMessage) ToJSON() map[string]interface{} {
+	alarms := make([]map[string]interface{}, 5)
+	for i := 0; i < 5; i++ {
+		alarms[i] = a.AlDisp[i].ToJSON()
+	}
+
+	return map[string]interface{}{
+		"reserved": a.Reserved,
+		"sound_on_off": map[string]interface{}{
+			"value": a.SoundOnOff,
+			"status": a.IsSoundOn(),
+		},
+		"reserved2": a.Reserved2,
+		"reserved3": a.Reserved3,
+		"silence_info": map[string]interface{}{
+			"value": a.SilenceInfo,
+			"description": a.GetSilenceInfoDescription(),
+			"is_silenced": a.IsSilenced(),
+		},
+		"alarms": alarms,
+		"active_alarm_count": a.GetActiveAlarmCount(),
+		"highest_priority_alarm": func() interface{} {
+			if highest := a.GetHighestPriorityAlarm(); highest != nil {
+				return highest.ToJSON()
+			}
+			return nil
+		}(),
+		"reserved4": a.Reserved4,
+	}
+}
+
+// Alarm Subrecords Union Structure
+// union al_srcrds
+type AlarmSubrecords struct {
+	AlarmMsg *AlarmStatusMessage // struct dri_al_msg
+}
+
+// Size returns the size of AlarmSubrecords in bytes
+func (a *AlarmSubrecords) Size() int {
+	if a.AlarmMsg != nil {
+		return a.AlarmMsg.Size()
+	}
+	return 0
+}
+
+// UnmarshalBinary converts binary data to alarm subrecords
+func (a *AlarmSubrecords) UnmarshalBinary(data []byte) error {
+	if len(data) == 0 {
+		return nil
+	}
+
+	// For now, assume it's an alarm status message
+	a.AlarmMsg = &AlarmStatusMessage{}
+	return a.AlarmMsg.UnmarshalBinary(data)
+}
+
+// ToJSON converts the AlarmSubrecords to JSON format
+func (a *AlarmSubrecords) ToJSON() map[string]interface{} {
+	if a.AlarmMsg != nil {
+		return map[string]interface{}{
+			"type": "alarm_status_message",
+			"data": a.AlarmMsg.ToJSON(),
+		}
+	}
+	return map[string]interface{}{
+		"type": "empty",
+		"data": nil,
+	}
+}
